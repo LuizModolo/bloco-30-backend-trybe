@@ -22,6 +22,28 @@ class WorldCupService {
     const worldCup = await this.worldCupModel.insertWorldCup(worldCupData);
     return worldCup;
   }
+
+  public async updateWorldCup(
+    updateData: object,
+    worldCupYear: number,
+  ): Promise<IWorldCup | null> {
+    const updatedWorldCup = await this
+      .worldCupModel.updateWorldCup(updateData, worldCupYear);
+    return updatedWorldCup;
+  }
+
+  public async deleteWorldCup(year: number): Promise<IWorldCup | null> {
+    const deletedWorldCup = await this.worldCupModel.deleteWorldCup(year);
+    return deletedWorldCup;
+  }
+
+  public async runnerUp(country: string): Promise<IWorldCup[] | null> {
+    const data = await this.worldCupModel.runnerUp(country);
+    if (!data || data.length === 0) {
+      return null;
+    }
+    return data;
+  }  
 }
 
 export default WorldCupService;

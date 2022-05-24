@@ -25,6 +25,33 @@ class WorldCupModel {
     const worldCup = await this.worldCupModel.create(worldCupData);
     return worldCup;
   }
+
+  public async updateWorldCup(
+    updateData: object,
+    worldCupYear: number,
+  ): Promise<IWorldCup | null> {
+    const updatedWorldCup = await this
+      .worldCupModel.findOneAndUpdate({
+        year: worldCupYear,
+      }, {
+        ...updateData,
+      }, {
+        new: true,
+      });
+    return updatedWorldCup;
+  }
+
+  public async deleteWorldCup(year: number): Promise<IWorldCup | null> {
+    const deletedWorldCup = await this.worldCupModel.findOneAndDelete({ year });
+    return deletedWorldCup;
+  }
+
+  public async runnerUp(term: string): Promise<IWorldCup[] | null> {
+    const data = await this.worldCupModel.find(
+      { runnerUp: { $regex: term, $options: 'i' } },
+    );
+    return data;
+  }
 }
 
 export default WorldCupModel;
